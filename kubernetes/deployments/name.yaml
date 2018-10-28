@@ -1,0 +1,44 @@
+---
+
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: name
+  namespace: demo
+  labels:
+    app: name
+spec:
+  selector:
+    matchLabels:
+      app: name
+  replicas: 2
+  minReadySeconds: 10
+  progressDeadlineSeconds: 120
+  template:
+    metadata:
+      labels:
+        app: name
+    spec:
+      containers:
+      - name: name
+        image: sirius226/eup-demo-name:1.0
+        ports:
+        - containerPort: 8080
+        # readinessProbe:
+        #   httpGet:
+        #     path: /health
+        #     port: 8080
+        #   initialDelaySeconds: 30
+        # livenessProbe:
+        #   httpGet:
+        #     path: /health
+        #     port: 8080
+        #   initialDelaySeconds: 30
+        resources:
+          requests:
+            memory: 128Mi
+            cpu: 100m
+          limits:
+            memory: 256Mi
+            cpu: 200m
+      terminationGracePeriodSeconds: 30
