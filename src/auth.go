@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func secret(w http.ResponseWriter, r *http.Request) {
+func auth(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
 		panic(err)
 	}
@@ -19,6 +19,10 @@ func secret(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func health(w http.ResponseWriter, r *http.Request) {
+  w.Write([]byte("ok"))
+}
+
 func Log(handler http.Handler) http.Handler {
   return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
     log.Printf("%s %s %s", r.RemoteAddr, r.Method, r.URL)
@@ -27,8 +31,8 @@ func Log(handler http.Handler) http.Handler {
 }
 
 func main() {
-  fmt.Println("Secret Service started!")
-  http.HandleFunc("/auth", secret)
+  fmt.Println("Auth Service started!")
+  http.HandleFunc("/auth", auth)
   if err := http.ListenAndServe(":8080", Log(http.DefaultServeMux)); err != nil {
     panic(err)
   }
