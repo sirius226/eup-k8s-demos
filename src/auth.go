@@ -31,7 +31,8 @@ func Log(handler http.Handler) http.Handler {
 }
 
 func main() {
-  fmt.Println("Auth Service started!")
+	fmt.Println("Auth Service started!")
+	http.HandleFunc("/health", health)
   http.HandleFunc("/auth", auth)
   if err := http.ListenAndServe(":8080", Log(http.DefaultServeMux)); err != nil {
     panic(err)
