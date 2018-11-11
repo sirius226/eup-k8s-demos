@@ -11,8 +11,8 @@ func auth(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	if r.FormValue("secret") == (os.Getenv("SECRET")) {
-		w.Write([]byte("Good credential. Current env is: " + os.Getenv("ENV")))
+	if r.FormValue("secret") == (os.Getenv("MY_SECRET")) {
+		w.Write([]byte("Good credential. Current env is: " + os.Getenv("MY_ENV")))
 	} else {
 		w.WriteHeader(http.StatusForbidden)
 		w.Write([]byte("Bad credential"))

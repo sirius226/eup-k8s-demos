@@ -22,6 +22,17 @@ spec:
       containers:
       - name: auth
         image: sirius226/eup-demo-auth:1.0
+        env:
+        - name: MY_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: demo-secret
+              key: secret
+        - name: MY_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: demo-config
+              key: env
         ports:
         - containerPort: 8080
         readinessProbe:
