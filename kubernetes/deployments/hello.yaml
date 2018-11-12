@@ -12,6 +12,11 @@ spec:
     matchLabels:
       app: hello
   replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2        
+      maxUnavailable: 1
   minReadySeconds: 10
   progressDeadlineSeconds: 120
   template:
