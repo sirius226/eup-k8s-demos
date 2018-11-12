@@ -1,0 +1,44 @@
+---
+
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ .Values.app_name }}-deployment
+  namespace: {{ .Chart.Name }}
+  labels:
+    app: {{ .Values.app_name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.app_name }}
+  replicas: {{ .Values.replica_count }}
+  minReadySeconds: {{ .Values.min_ready_seconds }}
+  progressDeadlineSeconds: {{ .Values.progress_deadline_seconds }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app_name }}
+    spec:
+      containers:
+      - name: {{ .Values.app_name }}
+        image: {{ .Values.image }}
+        ports:
+        - containerPort: {{ .Values.container_port }}
+        readinessProbe:
+          httpGet:
+            path: {{ .Values.health_path }}
+            port: {{ .Values.health_port }}
+          initialDelaySeconds: 10
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.health_path }}
+            port: {{ .Values.health_port }}
+          initialDelaySeconds: 10
+        resources:
+          requests:
+            memory: {{ .Values.memory_request }}
+            cpu: {{ .Values.cpu_request }}
+          limits:
+            memory: {{ .Values.memory_limit }}
+            cpu: {{ .Values.cpu_limit }}
+      terminationGracePeriodSeconds: 30

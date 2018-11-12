@@ -1,0 +1,16 @@
+---
+replica_count: 2
+
+min_ready_seconds: 10
+
+progress_deadline_seconds: 120
+
+container_port: 8080
+
+health_path: /health
+health_port: 8080
+
+cpu_request: 100m
+memory_request: 128Mi
+cpu_limit: 256Mi
+memory_limit: 200m
