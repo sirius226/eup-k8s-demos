@@ -12,6 +12,11 @@ spec:
     matchLabels:
       app: {{ .Values.app_name }}
   replicas: {{ .Values.replica_count }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2        
+      maxUnavailable: 1
   minReadySeconds: {{ .Values.min_ready_seconds }}
   progressDeadlineSeconds: {{ .Values.progress_deadline_seconds }}
   template:
